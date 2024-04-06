@@ -9,102 +9,139 @@ import { fetchx, fetcher } from "../utils";
 import useSWR from "swr";
 
 const Form = () => {
-    const [carBrand, setCarBrand] = useState("")
-    const [year, setYear] = useState("")
-    const [model, setModel] = useState("")
-    const [colour, setColour] = useState("")
-    const [mileage, setMileage] = useState("")
-    const [reg, setReg] = useState("")
-    const [cost, setCost] = useState("")
-    const [retail, setRetail] = useState("")
-    const [date, setDate] = useState(dayjs())
+
+    const [carData, setCarData] = useState({
+        carBrand: '',
+        year: '',
+        model: '',
+        colour: '',
+        mileage: '',
+        reg: '',
+        cost: '', 
+        retail: '',
+        date: dayjs(),
+    })
+
+    const handleChange = (e, newDate) => {
+        if (e?.target) {
+            setCarData({ ...carData, [e.target.name]: e.target.value });
+        } else {
+            setCarData({ ...carData, date: newDate })
+        }
+    };
 
     // Using useSWR hook to fetch data
     const { data:cars, error, isLoading } = useSWR('/cars', fetcher);
-    console.log(cars)
+    // console.log(cars)
 
-    const submitForm = (carBrand) => {
-        fetchx("/cars").then(res => res.json())
+
+    const username = 'dogan';
+    const password = 'dogan';
+    const headers = new Headers();
+
+    // Encode username and password base64
+    const encodedCredentials = btoa(`${username}:${password}`);
+
+    headers.append('Authorization', `Basic ${encodedCredentials}`);
+    headers.append('Content-Type', 'application/json');
+
+    const submitForm = (carData) => {
+        // carData.preventDefault()
+        fetchx("/cars/", {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify(carData),
+            // body: carData,
+            
+        })
+        .then(res => res.json())
+        .then(data => {
+            console.log('Success:', data);
+          })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
     }  
     return (
         <div>
             <div>
                 <TextField 
-                    id="year" 
+                    name="year" 
                     label="Year" 
                     variant="outlined"
-                    value={year}
-                    onChange={(e) => setYear(e.target.value)}
+                    value={carData.year}
+                    onChange={handleChange}
                 />
             </div>
             <div>    
                 <TextField 
-                    id="brand" 
+                    name="carBrand" 
                     label="Brand (Audi, BMW, Volkswagen, ...)" 
                     variant="outlined"
-                    value={carBrand}
-                    onChange={(e) => setCarBrand(e.target.value)}
+                    value={carData.carBrand}
+                    onChange={handleChange}
                 />
             </div>
             <div>
                 <TextField 
-                    id="model" 
+                    name="model" 
                     label="Model (eg. 320d, C200, A3...)" 
                     variant="outlined"
-                    value={model}
-                    onChange={(e) => setModel(e.target.value)}
+                    value={carData.model}
+                    onChange={handleChange}
                 />
             </div>
             <div>
                 <TextField 
-                    id="colour" 
+                    name="colour" 
                     label="Colour" 
                     variant="outlined"
-                    value={colour}
-                    onChange={(e) => setColour(e.target.value)}
+                    value={carData.colour}
+                    onChange={handleChange}
                 />
             </div>
             <div>
                 <TextField 
-                    id="mileage" 
+                    name="mileage" 
                     label="Mileage" 
                     variant="outlined"
-                    value={mileage}
-                    onChange={(e) => setMileage(e.target.value)}
+                    value={carData.mileage}
+                    onChange={handleChange}
                 />
             </div>
             <div>
                 <TextField 
-                    id="reg" 
+                    name="reg" 
                     label="Registration Number" 
                     variant="outlined"
-                    value={reg}
-                    onChange={(e) => setReg(e.target.value)}
+                    value={carData.reg}
+                    onChange={handleChange}
                 />
             </div>
             <div>
                 <TextField 
-                    id="cost" 
+                    name="cost" 
                     label="Cost Price (R)" 
                     variant="outlined"
-                    value={cost}
-                    onChange={(e) => setCost(e.target.value)}
+                    value={carData.cost}
+                    onChange={handleChange}
                 />
             </div>
             <div>
                 <TextField 
-                    id="retail" 
+                    name="retail" 
                     label="Retail Price (R)" 
                     variant="outlined"
-                    value={retail}
-                    onChange={(e) => setRetail(e.target.value)}
+                    value={carData.retail}
+                    onChange={handleChange}
                 />
             </div>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker 
                     label="Date Purchased"
-                    value={date}
-                    onChange={(e) => setDate(e)}
+                    name="date"
+                    value={carData.date}
+                    onChange={(newDate) => handleChange(null, newDate)}
                 />
             </LocalizationProvider>
             <div>
@@ -112,7 +149,8 @@ const Form = () => {
                     id="submit"
                     variant="contained"
                     onClick={() => {
-                        submitForm(carBrand)
+                        submitForm(carData)
+                        console.log(carData)
                     }}
                 > Submit </Button>
             </div>

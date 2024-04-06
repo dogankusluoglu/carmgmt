@@ -1,5 +1,8 @@
 from rest_framework import generics, permissions, viewsets
 
+from rest_framework.views import APIView
+from rest_framework.response import Response
+
 from carmanager.models import Car, Expense
 from carmanager.serializers import CarSerializer, ExpenseSerializer
 
@@ -10,6 +13,13 @@ class CarViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save()
+
+    def post(self, request, *args, **kwargs):
+        serializer = CarSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=201)
+        return Response(serializer.errors, status=400)
 
 class ExpenseList(generics.ListCreateAPIView):
     queryset = Expense.objects.all()
