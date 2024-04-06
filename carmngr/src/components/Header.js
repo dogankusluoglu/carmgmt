@@ -6,13 +6,13 @@ const Header = ({ title }) => {
     <header>
         <h1>{title}</h1>
         <Form />
-        <AddButton />
+        {/* <AddButton /> */}
     </header>
   )
 }
 
 Header.defaultProps = {
-    title: 'helol world'
+    title: 'Enter New Car:'
 }
 
 export default Header
