@@ -24,7 +24,9 @@ Make sure Python, Django and Django's rest_framework is installed. in the `/carm
 
 ### `python3 manage.py runserver`
 
-## Other frontend available scripts
+Starts development server at [http://127.0.0.1:8000/](http://127.0.0.1:8000/)
+
+## Other available frontend scripts
 
 ### `npm test`
 
