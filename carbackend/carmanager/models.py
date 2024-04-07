@@ -21,6 +21,7 @@ class Car(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     soldTo = models.CharField(max_length=200, blank=True, default="")
     notes = models.CharField(max_length=400, blank=True, default="")
+    status = models.CharField(max_length=50, blank=True, default="")
 
     class Meta:
         ordering = ["created_at"]

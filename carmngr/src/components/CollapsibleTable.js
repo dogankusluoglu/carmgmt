@@ -1,4 +1,6 @@
-import Fragment, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
+
+import { useNavigate } from 'react-router'; 
 
 import { Table, TableBody, TableCell, TableContainer, TableHead, TableRow, TextField, Paper } from '@mui/material';
 
@@ -33,10 +35,11 @@ export const CollapsibleTable = () => {
         setSearchTerm(event.target.value.toLowerCase());
     };
 
+    const navigate = useNavigate();
+
     const handleEdit = (car) => {
-        // Placeholder for edit functionality
         console.log("Editing car:", car);
-        // Here we can set up a state to open a modal/dialogue for editing the car details
+        navigate(`/editcar/${car.id}`);
     };
 
     const filteredCars = cars ? cars.filter(car =>
@@ -71,10 +74,9 @@ export const CollapsibleTable = () => {
                         <TableCell>Cost Price</TableCell>
                         <TableCell>Retail Price</TableCell>
                         <TableCell>Date Purchased</TableCell>
-                        <TableCell>Edit</TableCell>
+                        <TableCell>View & Edit</TableCell>
                     </TableRow>
                 </TableHead>
-                {/* {console.log(filteredCars)} */}
                 <TableBody>
                     {!isLoading && filteredCars.map((car) => (
                     <CarRow key={car.id} car={car} onEdit={handleEdit} />

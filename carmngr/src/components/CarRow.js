@@ -59,7 +59,7 @@ export const CarRow = ({ car, onEdit }) => {
                         startIcon={<EditIcon />}
                         onClick={() => onEdit(car)}
                     >
-                        Edit
+                        View 
                     </Button>
                 </TableCell>
             </TableRow>
