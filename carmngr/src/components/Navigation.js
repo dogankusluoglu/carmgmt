@@ -1,4 +1,4 @@
-import { AppBar, Toolbar, IconButton } from '@mui/material';
+import { AppBar, Toolbar, Button } from '@mui/material';
 import CarRentalIcon from '@mui/icons-material/CarRental';
 import AddIcon from '@mui/icons-material/Add';
 
@@ -8,12 +8,13 @@ const Navigation = () => {
   return (
     <AppBar position="static">
       <Toolbar>
-        <IconButton component={Link} to="/" color="inherit">
-          <AddIcon />
-        </IconButton>
-        {/* <IconButton component={Link} to="/about" color="inherit">
-          <AddIcon />
-        </IconButton> */}
+        <Button component={Link} to="/" color="inherit" startIcon={<AddIcon />}>
+          Add Car
+        </Button>
+        <Button component={Link} to="/viewcars" color="inherit" startIcon={<CarRentalIcon />}>
+          All Cars
+        </Button>
+        
         {/* Add more icons linked to different paths here */}
       </Toolbar>
     </AppBar>

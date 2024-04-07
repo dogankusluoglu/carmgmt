@@ -11,6 +11,7 @@ import useSWR from "swr";
 const Form = () => {
 
     const [carData, setCarData] = useState({
+        vin: '',
         carBrand: '',
         year: '',
         model: '',
@@ -19,6 +20,7 @@ const Form = () => {
         reg: '',
         cost: '', 
         retail: '',
+        purchasedFrom: '',
         date: dayjs(),
     })
 
@@ -35,8 +37,8 @@ const Form = () => {
     // console.log(cars)
 
 
-    const username = 'dogan';
-    const password = 'dogan';
+    const username = 'dogie';
+    const password = 'dogie';
     const headers = new Headers();
 
     // Encode username and password base64
@@ -64,6 +66,15 @@ const Form = () => {
     }  
     return (
         <div>
+            <div>
+                <TextField 
+                    name="vin" 
+                    label="VIN Number" 
+                    variant="outlined"
+                    value={carData.vin}
+                    onChange={handleChange}
+                />
+            </div>
             <div>
                 <TextField 
                     name="year" 
@@ -133,6 +144,15 @@ const Form = () => {
                     label="Retail Price (R)" 
                     variant="outlined"
                     value={carData.retail}
+                    onChange={handleChange}
+                />
+            </div>
+            <div>
+                <TextField 
+                    name="purchasedFrom" 
+                    label="Purchased From" 
+                    variant="outlined"
+                    value={carData.purchasedFrom}
                     onChange={handleChange}
                 />
             </div>
