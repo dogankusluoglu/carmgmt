@@ -1,10 +1,13 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router';
 
+import Button from '@mui/material/Button';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
 import { DatePicker } from '@mui/x-date-pickers/DatePicker';
 import dayjs from 'dayjs';
+
+import MUIDataTable from "mui-datatables";
 
 import { fetchx, fetcher } from "../utils";
 import useSWR from "swr";
@@ -34,7 +37,8 @@ export const CarEditPage = () => {
         date: dayjs(),
         soldDate: dayjs(),
         notes: '',
-        status: ''
+        status: '',
+        expenses: []
     })
 
     const { data:car, error, isLoading } = useSWR(`/cars/${carId}`, fetcher);
@@ -60,6 +64,42 @@ export const CarEditPage = () => {
             setCarData({ ...carData, date: newDate })
         }
     };
+
+    const columnsExp = [
+        "Description",
+        "Amount"
+    ];
+
+    const username = 'dogie';
+    const password = 'dogie';
+    const headers = new Headers();
+
+    // Encode username and password base64
+    const encodedCredentials = btoa(`${username}:${password}`);
+
+    headers.append('Authorization', `Basic ${encodedCredentials}`);
+    headers.append('Content-Type', 'application/json');
+
+    // console.log(JSON.stringify(carData));
+
+    const submitForm = async (carData) => {
+        await fetchx(`/cars/${carId}/`, {
+            method: 'PUT',
+            headers: headers,
+            body: JSON.stringify(carData),
+            // body: carData,
+            
+        })
+        .then(res => res.json())
+        .then(data => {
+            console.log('Success:', data);
+          })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+    }  
+
+    console.log(carData.expenses)
 
     return (
         <div>
@@ -224,6 +264,18 @@ export const CarEditPage = () => {
                         onChange={(newDate) => handleChange(null, newDate)}
                     />
                 </LocalizationProvider>
+
+                <div>
+                    <Button 
+                        id="submit"
+                        variant="contained"
+                        onClick={() => {
+                            submitForm(carData)
+                            console.log(carData)
+                        }}
+                    > Submit </Button>
+                </div>
+                <h2>EXPENSES</h2>
             </div>
     )
 }

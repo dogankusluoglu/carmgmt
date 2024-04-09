@@ -1,4 +1,5 @@
 import { useState, Fragment } from "react"
+import { useNavigate } from "react-router"
 
 import { fetchx, fetcher } from "../utils";
 import useSWR from "swr";
@@ -11,11 +12,13 @@ import MUIDataTable from "mui-datatables";
 
 export const CarsView = () => {
 
+    const navigate = useNavigate();
+
     // Using useSWR hook to fetch data
     const { data:cars, error, isLoading } = useSWR('/cars', fetcher);
     if (error) return <div>failed to load</div>
     if (isLoading) return <div>loading...</div>
-    console.log(JSON.stringify(cars))
+    // console.log(JSON.stringify(cars))
 
     // Header Setup (for later edit vehicle)
     const username = 'dogie';
@@ -27,6 +30,7 @@ export const CarsView = () => {
     headers.append('Content-Type', 'application/json');
 
     const columns = [
+        "ID",
         "Year", 
         "Brand", 
         "Model", 
@@ -37,10 +41,12 @@ export const CarsView = () => {
         "Registration",
         "Cost Price", 
         "Retail Price", 
-        "Date Purchased"
+        "Date Purchased",
+        "Status"
     ];
 
     const data = cars.map(car => [
+        car.id,
         car.year, 
         car.carBrand, 
         car.model, 
@@ -52,7 +58,8 @@ export const CarsView = () => {
         car.cost,
         car.retail,
         car.date,
-        // In case I need to stringify the expenses array as well
+        car.status
+        // Stringify the expenses array as well
         // JSON.stringify(car.expenses),
         // car.totalSpent,
         // car.salesman,
@@ -65,6 +72,9 @@ export const CarsView = () => {
 
     const options = {
         filterType: 'checkbox',
+        onRowClick: (rowData, rowMeta) => {
+            navigate(`/editcar/${rowData[0]}`);
+        }
     };
 
     return (

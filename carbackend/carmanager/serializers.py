@@ -6,7 +6,7 @@ from carmanager.models import Car, Expense
 class ExpenseSerializer(serializers.ModelSerializer):
     class Meta:
         model = Expense
-        fields = "_all_"
+        fields = '__all__'
 
 
 class CarSerializer(serializers.ModelSerializer):
