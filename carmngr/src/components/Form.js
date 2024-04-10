@@ -7,6 +7,7 @@ import dayjs from 'dayjs';
 import { useState } from "react"
 import { fetchx, fetcher } from "../utils";
 import useSWR from "swr";
+import { styled } from "@mui/system";
 
 const Form = () => {
 
@@ -64,9 +65,37 @@ const Form = () => {
             console.error('Error:', error);
         });
     }  
+
+    // Define styled components
+    const StyledFormContainer = styled('div')(({ theme }) => ({
+        display: 'flex',
+        flexDirection: 'column',
+        alignItems: 'center',
+        padding: theme.spacing(2),
+        '& > div': {
+        margin: theme.spacing(1),
+        width: '100%',
+        [theme.breakpoints.up('sm')]: {
+            width: '80%',
+        },
+        },
+    }));
+
+    const StyledButton = styled(Button)(({ theme }) => ({
+        marginTop: theme.spacing(2),
+        width: '50%',
+        alignSelf: 'center',
+        backgroundColor: '#007BFF',
+        color: '#FFFFFF',
+        '&:hover': {
+            backgroundColor: '#0056b3',
+        },
+        }));
+
+
     return (
         <div>
-            <div>
+            <StyledFormContainer>
                 <TextField 
                     name="vin" 
                     label="VIN Number" 
@@ -74,8 +103,7 @@ const Form = () => {
                     value={carData.vin}
                     onChange={handleChange}
                 />
-            </div>
-            <div>
+            
                 <TextField 
                     name="year" 
                     label="Year" 
@@ -83,8 +111,7 @@ const Form = () => {
                     value={carData.year}
                     onChange={handleChange}
                 />
-            </div>
-            <div>    
+              
                 <TextField 
                     name="carBrand" 
                     label="Brand (Audi, BMW, Volkswagen, ...)" 
@@ -92,8 +119,7 @@ const Form = () => {
                     value={carData.carBrand}
                     onChange={handleChange}
                 />
-            </div>
-            <div>
+            
                 <TextField 
                     name="model" 
                     label="Model (eg. 320d, C200, A3...)" 
@@ -101,8 +127,7 @@ const Form = () => {
                     value={carData.model}
                     onChange={handleChange}
                 />
-            </div>
-            <div>
+         
                 <TextField 
                     name="colour" 
                     label="Colour" 
@@ -110,8 +135,7 @@ const Form = () => {
                     value={carData.colour}
                     onChange={handleChange}
                 />
-            </div>
-            <div>
+        
                 <TextField 
                     name="mileage" 
                     label="Mileage" 
@@ -119,8 +143,7 @@ const Form = () => {
                     value={carData.mileage}
                     onChange={handleChange}
                 />
-            </div>
-            <div>
+  
                 <TextField 
                     name="reg" 
                     label="Registration Number" 
@@ -128,8 +151,7 @@ const Form = () => {
                     value={carData.reg}
                     onChange={handleChange}
                 />
-            </div>
-            <div>
+      
                 <TextField 
                     name="cost" 
                     label="Cost Price (R)" 
@@ -137,8 +159,7 @@ const Form = () => {
                     value={carData.cost}
                     onChange={handleChange}
                 />
-            </div>
-            <div>
+          
                 <TextField 
                     name="retail" 
                     label="Retail Price (R)" 
@@ -146,8 +167,7 @@ const Form = () => {
                     value={carData.retail}
                     onChange={handleChange}
                 />
-            </div>
-            <div>
+           
                 <TextField 
                     name="purchasedFrom" 
                     label="Purchased From" 
@@ -155,7 +175,7 @@ const Form = () => {
                     value={carData.purchasedFrom}
                     onChange={handleChange}
                 />
-            </div>
+          
             <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <DatePicker 
                     label="Date Purchased"
@@ -164,16 +184,16 @@ const Form = () => {
                     onChange={(newDate) => handleChange(null, newDate)}
                 />
             </LocalizationProvider>
-            <div>
-                <Button 
+          
+                <StyledButton 
                     id="submit"
                     variant="contained"
                     onClick={() => {
                         submitForm(carData)
                         console.log(carData)
                     }}
-                > Submit </Button>
-            </div>
+                > Submit </StyledButton>
+        </StyledFormContainer>
 
             {/* <div>
                 { cars.map(car => (
