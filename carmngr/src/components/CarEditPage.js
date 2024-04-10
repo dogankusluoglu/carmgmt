@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { useParams } from 'react-router';
 
+import { useNavigate } from "react-router"
+
 import Button from '@mui/material/Button';
 import { LocalizationProvider } from '@mui/x-date-pickers';
 import { AdapterDayjs } from '@mui/x-date-pickers/AdapterDayjs'
@@ -15,6 +17,12 @@ import useSWR from "swr";
 import { TextField } from '@mui/material';
 
 export const CarEditPage = () => {
+
+    const [expenseData, setExpenseData] = useState({
+        description: '',
+        amount: '',
+        car: ''
+    })
     
     const { carId } = useParams();
     // console.log(carId)
@@ -45,6 +53,8 @@ export const CarEditPage = () => {
 
     // console.log(car)
 
+    const navigate = useNavigate();
+
     useEffect(() => {
         if (car) {
             setCarData({
@@ -65,10 +75,27 @@ export const CarEditPage = () => {
         }
     };
 
+    const handleExpenseChange = (e) => {
+        setExpenseData({ ...expenseData, [e.target.name]: e.target.value });
+    };
+
     const columnsExp = [
         "Description",
-        "Amount"
+        "Amount",
     ];
+
+    const expenses = carData.expenses.map(expense => [
+        expense.description,
+        expense.amount
+    ])
+
+    let totalExpenses = 0;
+
+    for (const expense of expenses) {
+        totalExpenses += Number(expense[1])
+    }
+
+    // console.log(totalExpenses)
 
     const username = 'dogie';
     const password = 'dogie';
@@ -99,11 +126,37 @@ export const CarEditPage = () => {
         });
     }  
 
-    console.log(carData.expenses)
+    const submitExpense = async (carData) => {
+        expenseData.car = carId
+        await fetchx(`/expenses/`, {
+            method: 'POST',
+            headers: headers,
+            body: JSON.stringify(expenseData),
+            // body: carData,
+            
+        })
+        .then(res => res.json())
+        .then(data => {
+            console.log('Success:', data);
+          })
+        .catch((error) => {
+            console.error('Error:', error);
+        });
+    }  
+
+    // console.log(carData.expenses)
+
+    const options = {
+        filterType: 'checkbox',
+        onRowClick: (rowData, rowMeta) => {
+            navigate(`/expenses/${rowData[0]}`);
+        }
+    };
 
     return (
         <div>
-            <h1>{carData.year} {carData.carBrand} {carData.model} ({carData.colour})</h1>
+            <h1>{carData.year} {carData.carBrand} {carData.model} ({carData.colour}) from {carData.purchasedFrom}</h1>
+            <h2>Profit after expenses: R{Number(carData.retail) - Number(carData.cost) - totalExpenses}</h2>
             <div>
                 <TextField 
                     name="vin" 
@@ -275,7 +328,42 @@ export const CarEditPage = () => {
                         }}
                     > Submit </Button>
                 </div>
-                <h2>EXPENSES</h2>
+                <h2>Expenses</h2>
+                <h3>Total = R{totalExpenses}</h3>
+                
+                <div>
+                    <TextField 
+                        name="description" 
+                        label="Description" 
+                        variant="outlined"
+                        value={expenseData.description}
+                        onChange={handleExpenseChange}
+                    />
+
+                    <TextField 
+                        name="amount" 
+                        label="Amount" 
+                        variant="outlined"
+                        value={expenseData.amount}
+                        onChange={handleExpenseChange}
+                    />
+
+                    <Button 
+                        id="submit"
+                        variant="contained"
+                        onClick={() => {
+                            submitExpense(expenseData)
+                            console.log(expenseData)
+                        }}
+                    > Submit Expense </Button>
+                </div>
+
+                <MUIDataTable
+                    title={`${carData.year} ${carData.carBrand} ${carData.model}  Expenses`}
+                    data={expenses}
+                    columns={columnsExp}
+                    options={options}
+                />
             </div>
     )
 }
