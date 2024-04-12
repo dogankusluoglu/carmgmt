@@ -10,20 +10,16 @@ import { BrowserRouter as Router } from 'react-router-dom'
 
 function App() {
   return (
-    // JSX expressions must have a single element
     <Router>
       <Navigation />
       <Routes>
-        <Route path="/" element={<Header />} />
-        <Route path="/viewcars" element={<CarsView />} />
+        <Route path="/" element={<CarsView />} />
+        <Route path="/addcar" element={<Header />} />
         <Route path="/editcar/:carId" element={<CarEditPage />} />
         <Route path="/expenses" element={<Expenses />} />
         {/* <Route path="/about" component={AboutPage} /> */}
         {/* Define other routes here */}
       </Routes>
-      {/* <div className="container">
-        <Header />
-      </div> */}
     </Router>
   );
 }

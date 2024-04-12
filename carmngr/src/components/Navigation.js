@@ -9,11 +9,11 @@ const Navigation = () => {
   return (
     <AppBar position="static">
       <Toolbar>
-        <Button component={Link} to="/" color="inherit" startIcon={<AddIcon />}>
+        <Button component={Link} to="/addcar" color="inherit" startIcon={<AddIcon />}>
           Add Car
         </Button>
 
-        <Button component={Link} to="/viewcars" color="inherit" startIcon={<CarRentalIcon />}>
+        <Button component={Link} to="/" color="inherit" startIcon={<CarRentalIcon />}>
           Cars
         </Button>
 

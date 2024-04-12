@@ -21,7 +21,8 @@ export const CarEditPage = () => {
     const [expenseData, setExpenseData] = useState({
         description: '',
         amount: '',
-        car: ''
+        car: '',
+        date: dayjs()
     })
     
     const { carId } = useParams();
@@ -75,19 +76,25 @@ export const CarEditPage = () => {
         }
     };
 
-    const handleExpenseChange = (e) => {
-        setExpenseData({ ...expenseData, [e.target.name]: e.target.value });
+    const handleExpenseChange = (e, newDate) => {
+        if (e?.target) {
+            setExpenseData({ ...expenseData, [e.target.name]: e.target.value });
+        } else {
+            setExpenseData({ ...expenseData, date: newDate})
+        }
     };
 
     const columnsExp = [
         "Description",
         "Amount",
+        "Date",
     ];
 
-    const expenses = carData.expenses.map(expense => [
+    const expenses = carData ? carData.expenses.map(expense => [
         expense.description,
-        expense.amount
-    ])
+        expense.amount,
+        dayjs(expense.date).format('DD MMMM YYYY'),
+    ]) : []
 
     let totalExpenses = 0;
 
@@ -347,6 +354,15 @@ export const CarEditPage = () => {
                         value={expenseData.amount}
                         onChange={handleExpenseChange}
                     />
+
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DatePicker 
+                            label="Date of Expense"
+                            name="date"
+                            value={expenses.date}
+                            onChange={(newDate) => handleExpenseChange(null, newDate)}
+                        />
+                    </LocalizationProvider>
 
                     <Button 
                         id="submit"

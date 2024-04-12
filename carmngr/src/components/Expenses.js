@@ -6,6 +6,8 @@ import MUIDataTable from "mui-datatables";
 import { fetchx, fetcher } from "../utils";
 import useSWR from "swr";
 
+import dayjs from 'dayjs';
+
 export const Expenses = () => {
     
     const navigate = useNavigate()
@@ -78,7 +80,7 @@ export const Expenses = () => {
         expense.id,
         expense.description,
         expense.amount,
-        expense.created_at,
+        dayjs(expense.created_at).format('DD MMMM YYYY'),
         carLookup[expense.car] || 'Unknown Car'
     ]): []
 
@@ -101,9 +103,9 @@ export const Expenses = () => {
 
     return (
         <div>
-            {/* <h1>All Expenses</h1> */}
+            <h1>Expenses</h1>
             <MUIDataTable
-                title={`Expenses`}
+                title={`All Expenses`}
                 data={expensesData}
                 columns={columnsExp}
                 options={options}
