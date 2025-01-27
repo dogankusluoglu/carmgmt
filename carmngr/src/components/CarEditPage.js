@@ -16,6 +16,8 @@ import useSWR from "swr";
 
 import { TextField } from '@mui/material';
 
+import '../styling.css'
+
 export const CarEditPage = () => {
 
     const [expenseData, setExpenseData] = useState({
@@ -164,7 +166,7 @@ export const CarEditPage = () => {
         <div>
             <h1>{carData.year} {carData.carBrand} {carData.model} ({carData.colour}) from {carData.purchasedFrom}</h1>
             <h2>Profit after expenses: R{Number(carData.retail) - Number(carData.cost) - totalExpenses}</h2>
-            <div>
+            <div className='textbox'>
                 <TextField 
                     name="vin" 
                     label="VIN Number" 
@@ -173,7 +175,7 @@ export const CarEditPage = () => {
                     onChange={handleChange}
                 />
             </div>
-            <div>
+            <div className='textbox'>
                 <TextField 
                     name="year" 
                     label="Year" 
@@ -182,7 +184,7 @@ export const CarEditPage = () => {
                     onChange={handleChange}
                 />
             </div>
-            <div>    
+            <div className='textbox'>    
                 <TextField 
                     name="carBrand" 
                     label="Brand (Audi, BMW, Volkswagen, ...)" 
@@ -191,7 +193,7 @@ export const CarEditPage = () => {
                     onChange={handleChange}
                 />
             </div>
-            <div>
+            <div className='textbox'>
                 <TextField 
                     name="model" 
                     label="Model (eg. 320d, C200, A3...)" 
@@ -200,7 +202,7 @@ export const CarEditPage = () => {
                     onChange={handleChange}
                 />
             </div>
-            <div>
+            <div className='textbox'>
                 <TextField 
                     name="colour" 
                     label="Colour" 
@@ -209,7 +211,7 @@ export const CarEditPage = () => {
                     onChange={handleChange}
                 />
             </div>
-            <div>
+            <div className='textbox'>
                 <TextField 
                     name="mileage" 
                     label="Mileage" 
@@ -218,7 +220,7 @@ export const CarEditPage = () => {
                     onChange={handleChange}
                 />
             </div>
-            <div>
+            <div className='textbox'>
                 <TextField 
                     name="reg" 
                     label="Registration Number" 
@@ -227,7 +229,7 @@ export const CarEditPage = () => {
                     onChange={handleChange}
                 />
             </div>
-            <div>
+            <div className='textbox'>
                 <TextField 
                     name="cost" 
                     label="Cost Price (R)" 
@@ -236,7 +238,7 @@ export const CarEditPage = () => {
                     onChange={handleChange}
                 />
             </div>
-            <div>
+            <div className='textbox'>
                 <TextField 
                     name="retail" 
                     label="Retail Price (R)" 
@@ -245,7 +247,7 @@ export const CarEditPage = () => {
                     onChange={handleChange}
                 />
             </div>
-            <div>
+            <div className='textbox'>
                 <TextField 
                     name="purchasedFrom" 
                     label="Purchased From" 
@@ -254,15 +256,17 @@ export const CarEditPage = () => {
                     onChange={handleChange}
                 />
             </div>
-            <LocalizationProvider dateAdapter={AdapterDayjs}>
-                <DatePicker 
-                    label="Date Purchased"
-                    name="date"
-                    value={carData.date}
-                    onChange={(newDate) => handleChange(null, newDate)}
-                />
-            </LocalizationProvider>
-            <div>
+            <div className='textbox'>
+                <LocalizationProvider dateAdapter={AdapterDayjs}>
+                    <DatePicker 
+                        label="Date Purchased"
+                        name="date"
+                        value={carData.date}
+                        onChange={(newDate) => handleChange(null, newDate)}
+                    />
+                </LocalizationProvider>
+            </div>
+            <div className='textbox'>
                 <TextField 
                     name="totalSpent" 
                     label="Total Spent (R)" 
@@ -271,7 +275,7 @@ export const CarEditPage = () => {
                     onChange={handleChange}
                 />
                 </div>
-                <div>
+                <div className='textbox'>
                     <TextField 
                         name="salesman" 
                         label="Salesman" 
@@ -280,7 +284,7 @@ export const CarEditPage = () => {
                         onChange={handleChange}
                     />
                 </div>
-                <div>
+                <div className='textbox'>
                     <TextField 
                         name="profit" 
                         label="Profit (R)" 
@@ -289,7 +293,7 @@ export const CarEditPage = () => {
                         onChange={handleChange}
                     />
                 </div>
-                <div>
+                <div className='textbox'>
                     <TextField 
                         name="soldTo" 
                         label="Sold To" 
@@ -298,7 +302,7 @@ export const CarEditPage = () => {
                         onChange={handleChange}
                     />
                 </div>
-                <div>
+                <div className='textbox'>
                     <TextField 
                         name="notes" 
                         label="Notes" 
@@ -307,7 +311,7 @@ export const CarEditPage = () => {
                         onChange={handleChange}
                     />
                 </div>
-                <div>
+                <div className='textbox'>
                     <TextField 
                         name="status" 
                         label="Status" 
@@ -316,16 +320,18 @@ export const CarEditPage = () => {
                         onChange={handleChange}
                     />
                 </div>
-                <LocalizationProvider dateAdapter={AdapterDayjs}>
-                    <DatePicker 
-                        label="Date Sold"
-                        name="dateSold"
-                        value={carData.dateSold}
-                        onChange={(newDate) => handleChange(null, newDate)}
-                    />
-                </LocalizationProvider>
+                <div className='textbox'>
+                    <LocalizationProvider dateAdapter={AdapterDayjs}>
+                        <DatePicker 
+                            label="Date Sold"
+                            name="dateSold"
+                            value={carData.dateSold}
+                            onChange={(newDate) => handleChange(null, newDate)}
+                        />
+                    </LocalizationProvider>
+                </div>
 
-                <div>
+                <div className='textbox'>
                     <Button 
                         id="submit"
                         variant="contained"
@@ -335,11 +341,11 @@ export const CarEditPage = () => {
                         }}
                     > Submit </Button>
                 </div>
-                <h2>Expenses</h2>
-                <h3>Total = R{totalExpenses}</h3>
+                <h2 className='textbox' >Expenses</h2>
+                <h3 className='textbox' >Total = R{totalExpenses}</h3>
                 
                 <div>
-                    <TextField 
+                    <TextField
                         name="description" 
                         label="Description" 
                         variant="outlined"
@@ -366,6 +372,7 @@ export const CarEditPage = () => {
 
                     <Button 
                         id="submit"
+                        className='button'
                         variant="contained"
                         onClick={() => {
                             submitExpense(expenseData)
